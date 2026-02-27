@@ -1,0 +1,215 @@
+openapi: 3.1.0
+info:
+  version: 0.0.1
+  title: Comment API
+  description: 説明
+tags:
+  - name: Comments
+    description: コメント機能
+servers:
+  - url: http://localhost/api
+    description: ローカル環境
+paths:
+  /articles/{articleId}/comments:
+    post:
+      tags:
+        - Comments
+      summary: Create a new comment
+      description: コメントを作成
+      parameters: 
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+         - Comments
+      summary: Get a list of comments on an article
+      description: 記事ごとのコメント一覧を取得
+      parameters: 
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /articles/{articleId}/comments/{commentId}:
+    delete:
+      tags:
+        - Comments
+      summary: Delete a comment
+      description: コメントを削除
+      parameters: 
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: commentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody: {}
+      responses:
+        204:
+          description: No Content
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'      
+    put:
+      tags:
+        - Comments
+      summary: Update a comment
+      description: コメントを更新
+      parameters: 
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: commentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+         200:
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+         400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+         404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+         401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+         500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Comment:
+      type: object
+      reqired:
+        - id
+        - userId
+        - articleId
+        - content
+        - createdAt
+        - updatedAt
+      properties:
+        commentId:
+          type: integer
+        userId:
+          type: string
+        articleId:
+          type: string
+        content:
+          type: string
+          maxLength: 100
+          minLength: 10
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true

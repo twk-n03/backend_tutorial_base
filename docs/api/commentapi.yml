@@ -176,7 +176,7 @@ components:
     Comment:
       type: object
       reqired:
-        - id
+        - commentId
         - userId
         - articleId
         - content

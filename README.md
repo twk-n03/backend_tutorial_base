@@ -2,6 +2,8 @@
 
 - APIの実装
     - Seederの実装,応用課題未実施
+    - index/store/update/destroyを追加
+    - userIdは仮実装で、query parameterで受け取る仕様です
 - 注意して見てほしい点
     - Controller内の関数で引数が適切かどうか（特にuser_idの扱いがよくわからず難しかったので）
 - 得た学び

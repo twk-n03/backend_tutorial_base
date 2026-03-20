@@ -45,4 +45,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    protected $primaryKey = 'user_id';
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

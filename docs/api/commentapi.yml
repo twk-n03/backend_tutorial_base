@@ -21,13 +21,18 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: integer
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: integer
       requestBody: 
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Comment'
+              $ref: '#/components/schemas/CommentCreateRequest'
       responses:
         201:
           description: Created
@@ -63,7 +68,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         200:
           description: OK
@@ -90,9 +95,14 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: integer
         - name: commentId
           in: path
+          required: true
+          schema:
+            type: integer
+        - name: userId
+          in: query
           required: true
           schema:
             type: integer
@@ -134,12 +144,17 @@ paths:
           required: true
           schema:
             type: integer
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
       requestBody: 
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Comment'
+              $ref: '#/components/schemas/CommentUpdateRequest'
       responses:
          200:
           description: Updated
@@ -175,7 +190,7 @@ components:
   schemas:
     Comment:
       type: object
-      reqired:
+      required:
         - commentId
         - userId
         - articleId
@@ -186,9 +201,9 @@ components:
         commentId:
           type: integer
         userId:
-          type: string
+          type: integer
         articleId:
-          type: string
+          type: integer
         content:
           type: string
           maxLength: 100
@@ -199,6 +214,30 @@ components:
         updatedAt:
           type: string
           format: date-time
+    
+    CommentCreateRequest:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          maxLength: 100
+          minLength: 10
+
+    CommentUpdateRequest:
+      type: object
+      required:
+        - content
+        - userId
+      properties:
+        content:
+          type: string
+          maxLength: 100
+          minLength: 10
+        userId:
+          type: integer
+    
     
     Error:
       type: object

@@ -12,12 +12,12 @@ class Comment extends Model
 
     public function articles()
     {
-        return $this->hasOne(Article::class, 'article_id');
+        return $this->belongsTo(Article::class);
     }
 
     public function users()
     {
-        return $this->hasOne(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     public $timestamps = true;

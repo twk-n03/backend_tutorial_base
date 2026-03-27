@@ -14,6 +14,4 @@ class Article extends Model
         return $this->hasMany(Comment::class);
     }
 
-    protected $primaryKey = 'article_id';
-
 }
